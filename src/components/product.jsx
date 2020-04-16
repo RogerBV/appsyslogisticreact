@@ -1,4 +1,5 @@
 import React, {Component } from 'react';
+import axios from 'axios';
 class Product extends Component {    
     constructor(props){
         super(props);
@@ -28,19 +29,24 @@ class Product extends Component {
     handleChangeCategory(event){
         this.setState({ categoryId:event.target.value });
     }
+
+    setCategories(categories){
+        this.setState({ categories:categories });
+
+    }
+
     ListCategories(){
-        fetch('http://192.168.1.61/APISysLogistic/API/Category/List')
-        .then((response)=>{
-            return response.json()
-        })
-        .then((categories)=>{
-            this.setState({ categories: categories })
-        })
-        .catch(console.log)
+
+        axios.get('http://localhost/APISysLogistic/API/Category/List')
+        .then(response=>{
+            this.setState({ categories: response.data });
+        });
+
+        
     }
     SaveProduct()
     {
-        fetch('http://192.168.0.21/APISysLogistic/API/Product/Create?Name='+this.state.name+'&Price='+this.state.price+"&Description="+this.state.description+"&CategoryId="+this.state.categoryId)
+        fetch('http://localhost/APISysLogistic/API/Product/Create?Name='+this.state.name+'&Price='+this.state.price+"&Description="+this.state.description+"&CategoryId="+this.state.categoryId)
     }
     render(){
         this.ListCategories();
@@ -61,7 +67,13 @@ class Product extends Component {
                 <div className="row">
                     <label>Category</label>
                     <select id="cboCategory" onChange={this.handleChangeCategory} className="form-control">
-                    {this.state.categories.map((category) => <option key={category.Id} value={category.Id}>{category.Name}</option>)}
+                    {this.state.categories &&
+                        this.state.categories.length > 0 &&
+                        this.state.categories.map(category => {
+                            return <option key={category.Id} value={category.Id}>{category.Name}</option>;
+                    })}
+                    
+                    
                     </select>
                 </div>
                 <div>

@@ -7,14 +7,14 @@ class Products extends Component {
 
     ListProducts()
     {
-        fetch('http://192.168.0.21/APISysLogistic/API/Product/List')
-        .then((response)=>{
-            return response.json()
-        })
-        .then((products)=>{
-            this.setState({ products: products })
-        })
-        .catch(console.log)
+        //fetch('http://localhost/APISysLogistic/API/Product/List')
+        //.then((response)=>{
+        //    return response.json()
+        //})
+        //.then((products)=>{
+        //    this.setState({ products: products })
+        //})
+        //.catch(console.log)
     }
     renderTableData()
     {
